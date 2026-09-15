@@ -1,0 +1,21 @@
+import { NextResponse } from 'next/server';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { tickets } from '@/lib/schema';
+import { eq, desc } from 'drizzle-orm';
+
+export async function GET(req: Request, { params }: { params: { guildId: string } }) {
+  const session = await getServerSession(authOptions);
+  if (!session) return new NextResponse('Unauthorized', { status: 401 });
+
+  const guildIdNum = Number(params.guildId);
+
+  try {
+    const allTickets = await db.select().from(tickets).where(eq(tickets.guildId, guildIdNum)).orderBy(desc(tickets.createdAt)).limit(50);
+    const count = allTickets.filter(t => t.status === 'open').length;
+    return NextResponse.json({ count, recent: allTickets });
+  } catch (error) {
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}

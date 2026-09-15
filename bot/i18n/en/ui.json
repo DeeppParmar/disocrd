@@ -1,0 +1,11 @@
+{
+  "buttons": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "next": "Next",
+    "back": "Back"
+  },
+  "modals": {
+    "submit": "Submit"
+  }
+}
