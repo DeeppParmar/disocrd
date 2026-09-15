@@ -1,4 +1,3 @@
-import { NextResponse } from 'next-response'; // Need standard NextResponse but for this simple setup:
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
